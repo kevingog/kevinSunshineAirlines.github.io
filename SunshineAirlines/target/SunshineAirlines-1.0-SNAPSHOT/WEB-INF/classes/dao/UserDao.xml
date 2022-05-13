@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.UserDao">
+    <select id="FindByEmail" resultType="map">
+        select * from users where email=#{email}
+    </select>
+    <select id="UserList" resultType="map">
+        <bind name="start" value="(startPage-1)*pageSize"/>
+        select * from users 
+        <where>
+            <if test="roleId==0">
+                (firstName like concat('%',#{name},'%') or lastName like concat('%',#{name},'%'))
+            </if>
+            <if test="roleId>0">
+                roleId =#{roleId} and (firstName like concat('%',#{name},'%') or lastName like concat('%',#{name},'%'))
+            </if>
+            order by firstName limit #{start},#{pageSize}
+        </where>
+    </select>
+    <select id="FindByUserId" resultType="map">
+        select * from users where userId=#{userId}
+    </select>
+    <select id="countUser" resultType="int">
+        select count(*) from users
+        <where>
+            <if test="roleId==0">
+                (firstName like concat('%',#{name},'%') or lastName like concat('%',#{name},'%'))
+            </if>
+            <if test="roleId>0">
+                roleId =#{roleId} and (firstName like concat('%',#{name},'%') or lastName like concat('%',#{name},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="FindByEmailAndPassword" resultType="map">
+        select userId,email,firstName,lastName,roleId from users where email=#{email} and password=#{password}
+    </select>
+    <insert id="AddUser">
+        insert into users(email,password,firstName,lastName,gender,dateOfBirth,phone,photo,address,roleId)
+        values (#{email},#{password},#{firstName},#{lastName},#{gender},#{dateOfBirth},#{phone},#{photo},#{address},#{roleId})
+    </insert>
+    <update id="updatePassword">
+        update users set password=#{password} where userId=#{userId}
+    </update>
+</mapper>

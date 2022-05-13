@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ScheduleDao">
+    <select id="getSchedule" resultType="map">
+        select
+            s1.ScheduleId,
+            Date,
+            Time,
+            DepartureAirportIATA  as DepartureAirportIATA,
+            c1.CityName as DepartCityName,
+            ArrivalAirportIATA as ArrivalAirportIATA,
+            c2.CityName  as ArriveCityName,
+            `Name`,
+            EconomyPrice,
+            FlightNumber,
+            Gate,
+            `Status`
+        from `schedule` as s1
+            left join aircraft as air on air.AircraftId=s1.AircraftId
+            left join route as r1 on s1.RouteId=r1.RouteId
+            left join airport as a1 on r1.DepartureAirportIATA=a1.IATACode
+            left join airport as a2 on r1.ArrivalAirportIATA=a2.IATACode
+            left join city as c1 on a1.CityCode=c1.CityCode
+            left join city as c2 on a2.CityCode=c2.CityCode
+        where c1.CityName=#{fromCity} and c2.CityName=#{toCity} and Date between #{startDate} and #{endDate}
+        order by Date
+    </select>
+    <update id="updateSchedule">
+        update schedule set status=#{status} where scheduleId=#{scheduleId}
+    </update>
+    <select id="getTicket" resultType="map">
+        select
+        year(date) as Year,
+        Month(date) as Month,
+        count(DISTINCT s1.ScheduleId) as FlightsAmount,
+        count(f1.ReservationId) as TicketsAmount,
+        sum(Payment) as TicketsRevenue
+        from `schedule` as s1
+        left join flightreservation as f1 on s1.ScheduleId=f1.ScheduleId
+        where date &gt;=#{startDate} and date &lt;#{endDate} and `Status`='Confirmed'
+        group by year(date),month(date)
+        order by year(date),month(date)
+    </select>
+    <select id="findByScheduleId" resultType="map">
+        select * from schedule where scheduleId=#{scheduleId}
+    </select>
+</mapper>
