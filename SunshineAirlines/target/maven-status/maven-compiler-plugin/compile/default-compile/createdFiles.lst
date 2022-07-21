@@ -1,10 +1,14 @@
+service\impl\UserServiceImpl.class
 pojo\Page.class
 service\cityService.class
 controller\UserController.class
 dao\cityDao.class
 service\UserService.class
 dao\UserDao.class
+controller\ScheduleController.class
 controller\cityController.class
+dao\ScheduleDao.class
 pojo\Result.class
-service\cityServiceImpl.class
-service\UserServiceImpl.class
+service\impl\ScheduleServiceImpl.class
+service\ScheduleService.class
+service\impl\cityServiceImpl.class

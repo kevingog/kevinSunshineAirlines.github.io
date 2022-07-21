@@ -1,8 +1,9 @@
-package service;
+package service.impl;
 
 import dao.ScheduleDao;
 import org.springframework.stereotype.Service;
 import pojo.Result;
+import service.ScheduleService;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.SimpleTimeZone;
 
 @Service
-public class ScheduleServiceImpl implements ScheduleService{
+public class ScheduleServiceImpl implements ScheduleService {
     @Resource
     private ScheduleDao scheduleDao;
     @Override

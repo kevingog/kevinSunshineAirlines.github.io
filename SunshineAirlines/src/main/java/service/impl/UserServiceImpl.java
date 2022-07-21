@@ -1,9 +1,10 @@
-package service;
+package service.impl;
 
 import dao.UserDao;
 import org.springframework.stereotype.Service;
 import pojo.Page;
 import pojo.Result;
+import service.UserService;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

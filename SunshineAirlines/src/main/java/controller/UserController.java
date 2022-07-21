@@ -3,8 +3,7 @@ package controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.UserService;
-import service.UserServiceImpl;
+import service.impl.UserServiceImpl;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
